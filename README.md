@@ -97,7 +97,7 @@ CREATE TABLE reviews (
 ### 1. **Clone the Repository**
 
 ```sh
-git clone <your-repo-url>
+git clone https://github.com/whotfvasu/fp
 cd fp
 ```
 
