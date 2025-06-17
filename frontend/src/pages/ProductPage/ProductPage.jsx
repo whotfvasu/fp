@@ -312,20 +312,6 @@ const ProductPage = () => {
     setIsSubmitting(false);
   };
 
-  const renderStars = (rating) => {
-    // Only fill up to the rounded rating, rest are unfilled
-    const roundedRating = Math.round(Number(rating));
-    return Array.from({ length: 5 }, (_, i) => (
-      <span key={i} className={i < roundedRating ? "filled" : "unfilled"}>
-        ★
-      </span>
-    ));
-  };
-
-  const handleStarClick = (value) => {
-    setNewRating(value);
-  };
-
   const openModal = (imageUrl) => {
     setModalImage(imageUrl);
   };
@@ -356,10 +342,9 @@ const ProductPage = () => {
                   <span className="rating-value">
                     {averageRating !== null && !isNaN(Number(averageRating)) ? (
                       <>
-                        {Number(averageRating).toFixed(1)}
-                        <div className="stars-display">
-                          {renderStars(averageRating)}
-                        </div>
+                        <span className="rating-value">
+                          Rating: {Number(averageRating).toFixed(1)}
+                        </span>
                       </>
                     ) : (
                       "No ratings yet"
@@ -392,10 +377,10 @@ const ProductPage = () => {
                 {feedbackItems.map((item) => (
                   <li key={item.id} className="feedback-item">
                     <div className="feedback-header">
-                      {item.rating && (
-                        <div className="stars-display">
-                          {renderStars(item.rating)}
-                        </div>
+                      {item.rating !== null && item.rating !== undefined && (
+                        <span className="rating-value">
+                          Rating: {item.rating}
+                        </span>
                       )}
                       <span className="feedback-user">
                         by{" "}
@@ -429,18 +414,17 @@ const ProductPage = () => {
             <h3>Add Your Feedback</h3>
             <div className="rating-review-form">
               <div className="form-group">
-                <label htmlFor="rating">Your Rating</label>
-                <div className="star-rating">
-                  {[1, 2, 3, 4, 5].map((value) => (
-                    <span
-                      key={value}
-                      onClick={() => handleStarClick(value)}
-                      className={value <= newRating ? "filled" : ""}
-                    >
-                      ★
-                    </span>
-                  ))}
-                </div>
+                <label htmlFor="rating">Your Rating (1-5)</label>
+                <input
+                  type="number"
+                  id="rating"
+                  min={1}
+                  max={5}
+                  value={newRating}
+                  onChange={(e) => setNewRating(Number(e.target.value))}
+                  className="rating-input"
+                  placeholder="Enter rating between 1 and 5"
+                />
               </div>
 
               <div className="form-group">
