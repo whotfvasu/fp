@@ -398,7 +398,8 @@ const ProductPage = () => {
                         </div>
                       )}
                       <span className="feedback-user">
-                        by {item.user?.username || item.user?.name || "Anonymous"}
+                        by{" "}
+                        {item.user?.username || item.user?.name || "Anonymous"}
                       </span>
                     </div>
 
