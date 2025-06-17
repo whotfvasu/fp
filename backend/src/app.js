@@ -2,17 +2,21 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
-import routes from './routes/index.js'
+import routes from "./routes/index.js";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: process.env.FRONTEND_URL,
+    credentials: true,
+  })
+);
 app.use(bodyParser.json());
 
 app.use("/api", routes);
-
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
