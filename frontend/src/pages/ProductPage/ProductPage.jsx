@@ -313,9 +313,10 @@ const ProductPage = () => {
   };
 
   const renderStars = (rating) => {
+    // Only fill up to the rounded rating, rest are unfilled
     const roundedRating = Math.round(Number(rating));
     return Array.from({ length: 5 }, (_, i) => (
-      <span key={i} className={i < roundedRating ? "filled" : ""}>
+      <span key={i} className={i < roundedRating ? "filled" : "unfilled"}>
         ★
       </span>
     ));
@@ -357,7 +358,7 @@ const ProductPage = () => {
                       <>
                         {Number(averageRating).toFixed(1)}
                         <div className="stars-display">
-                          {renderStars(Math.round(Number(averageRating)))}
+                          {renderStars(averageRating)}
                         </div>
                       </>
                     ) : (
@@ -397,8 +398,7 @@ const ProductPage = () => {
                         </div>
                       )}
                       <span className="feedback-user">
-                        by{" "}
-                        {item.user?.username || item.user?.name || "Anonymous"}
+                        by {item.user?.username || item.user?.name || "Anonymous"}
                       </span>
                     </div>
 
