@@ -313,15 +313,12 @@ const ProductPage = () => {
   };
 
   const renderStars = (rating) => {
-    const stars = [];
-    for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <span key={i} className={i <= rating ? "filled" : ""}>
-          ★
-        </span>
-      );
-    }
-    return stars;
+    const roundedRating = Math.round(Number(rating));
+    return Array.from({ length: 5 }, (_, i) => (
+      <span key={i} className={i < roundedRating ? "filled" : ""}>
+        ★
+      </span>
+    ));
   };
 
   const handleStarClick = (value) => {

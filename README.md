@@ -145,6 +145,7 @@ cd fp
 ## Deployment (Render)
 
 ### **Frontend**
+
 - Deploy as a **Static Site**.
 - Build command: `npm run build`
 - Publish directory: `dist`
@@ -152,6 +153,7 @@ cd fp
   `VITE_API_BASE_URL=https://<your-backend-service>.onrender.com/api`
 
 ### **Backend**
+
 - Deploy as a **Web Service**.
 - Build command: `npm install`
 - Start command: `npm start`
@@ -191,11 +193,11 @@ cd fp
 
 ## Assignment Requirements Mapping
 
-- **Functional:**  
+- **Functional:**
   - Users can rate/review once per product, with validation and optional photo/tag features.
-- **Technical:**  
+- **Technical:**
   - REST API (Express), React frontend, PostgreSQL DB.
-- **Deliverables:**  
+- **Deliverables:**
   - Codebase, schema, documentation (this file), and optional hosting.
 
 ---
