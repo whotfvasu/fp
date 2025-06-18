@@ -28,7 +28,7 @@ const ProductPage = () => {
   const [modalImage, setModalImage] = useState(null);
   const [formMessage, setFormMessage] = useState({
     text: "",
-    type: "", // "error", "success", or "warning"
+    type: "", 
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasUserRated, setHasUserRated] = useState(false);
@@ -62,7 +62,6 @@ const ProductPage = () => {
           const reviewsData = await fetchReviews(productId);
           const ratingsData = await fetchRatings(productId);
 
-          // Check if user has already rated or reviewed
           const userRating = ratingsData.find(
             (rating) => rating.user_id === parseInt(userId)
           );
@@ -73,10 +72,8 @@ const ProductPage = () => {
           setHasUserRated(!!userRating);
           setHasUserReviewed(!!userReview);
 
-          // Combine ratings and reviews
           const allFeedback = [];
 
-          // Add ratings with no reviews
           ratingsData.forEach((rating) => {
             const hasReview = reviewsData.some(
               (review) => review.user_id === rating.user_id
@@ -107,8 +104,6 @@ const ProductPage = () => {
               created_at: review.created_at,
             });
           });
-
-          // Sort by created_at date (newest first)
           allFeedback.sort(
             (a, b) => new Date(b.created_at) - new Date(a.created_at)
           );
@@ -130,7 +125,6 @@ const ProductPage = () => {
     const files = Array.from(e.target.files);
     setSelectedFiles(files);
 
-    // Create preview for the first image
     if (files.length > 0) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -140,13 +134,8 @@ const ProductPage = () => {
     }
   };
 
-  // Using the cloudinaryService for image upload
-
   const handleSubmit = async () => {
-    // Clear any previous messages
     setFormMessage({ text: "", type: "" });
-
-    // Form validation
     if (!newReview.trim() && (!newRating || newRating < 1 || newRating > 5)) {
       setFormMessage({
         text: "Please enter a valid rating between 1 and 5 or a non-empty review.",
@@ -154,8 +143,6 @@ const ProductPage = () => {
       });
       return;
     }
-
-    // Check if user has already rated or reviewed
     if (newRating && hasUserRated) {
       setFormMessage({
         text: "You've already rated this product. You can only submit one rating per product.",
@@ -175,7 +162,6 @@ const ProductPage = () => {
     setIsSubmitting(true);
     let imageUrl = null;
 
-    // Upload image if selected
     if (selectedFiles.length > 0) {
       try {
         imageUrl = await uploadToCloudinary(selectedFiles[0]);
@@ -189,8 +175,6 @@ const ProductPage = () => {
         return;
       }
     }
-
-    // Submit review if provided
     if (newReview.trim()) {
       const reviewData = {
         userId,
@@ -220,8 +204,6 @@ const ProductPage = () => {
         });
       } catch (error) {
         console.error("Error adding review:", error);
-
-        // Check if it's a duplicate review error
         if (
           error.response &&
           error.response.status === 400 &&
@@ -249,12 +231,10 @@ const ProductPage = () => {
 
       try {
         await addRating(productId, ratingData);
-
-        // If we only added a rating (no review), add it to feedback items
         if (!newReview.trim()) {
           const newFeedbackItem = {
-            id: `rating-${Date.now()}`, // Temporary ID
-            user: { id: parseInt(userId), name: "You" }, // This will be replaced when reloading
+            id: `rating-${Date.now()}`, 
+            user: { id: parseInt(userId), name: "You" },
             rating: newRating,
             review_text: null,
             image_url: null,
@@ -265,8 +245,6 @@ const ProductPage = () => {
         }
 
         setHasUserRated(true);
-
-        // Refresh average rating
         const averageRatingData = await fetchAverageRating(productId);
         setAverageRating(averageRatingData.average_rating);
 
@@ -278,8 +256,6 @@ const ProductPage = () => {
         }
       } catch (error) {
         console.error("Error adding rating:", error);
-
-        // Check if it's a duplicate rating error
         if (
           error.response &&
           error.response.status === 400 &&
@@ -290,7 +266,6 @@ const ProductPage = () => {
             type: "warning",
           });
         } else if (!newReview.trim()) {
-          // Only show error if we didn't already show a review success
           setFormMessage({
             text: "Failed to submit rating. Please try again.",
             type: "error",
@@ -303,8 +278,6 @@ const ProductPage = () => {
         }
       }
     }
-
-    // Reset form
     setNewReview("");
     setNewRating(0);
     setSelectedFiles([]);
@@ -473,8 +446,6 @@ const ProductPage = () => {
               </button>
             </div>
           </div>
-
-          {/* Image Modal */}
           {modalImage && (
             <div className="modal" onClick={closeModal}>
               <span className="close-btn" onClick={closeModal}>
