@@ -51,6 +51,10 @@ fp/
 
 ## Database Schema
 
+**Entity Relationship Diagram:**
+
+![Database ER Diagram](./schema-er-diagram.png)
+
 **PostgreSQL Tables:**
 
 ```sql
